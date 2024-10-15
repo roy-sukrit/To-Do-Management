@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es6",
+      "noEmit": true,
+      "types": ["jest"], // Include Jest types
+      "strict": true,
+      "esModuleInterop": true
+    },
+    "include": ["__test__/**/*.test.ts", "src/**/*.ts"] 
+  }
+  
