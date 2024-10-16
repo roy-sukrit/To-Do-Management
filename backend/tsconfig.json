@@ -1,6 +1,9 @@
 {
+  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.js"],
+
   "compilerOptions": {
     "types": ["jest", "node"],
+    "noEmit": true,  
 
     "target": "ES6",
     "module": "commonjs",

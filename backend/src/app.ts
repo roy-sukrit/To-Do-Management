@@ -7,7 +7,8 @@ const app = express();
 
 app.use(express.json());
 app.use('/api', todoRoutes);
-app.use(express.json());
+
+//Init Mongoose
 connectDB();
 
 // Central Error Handling

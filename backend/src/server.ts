@@ -5,9 +5,10 @@ import logger from './logger';
 
 const PORT = process.env.PORT || 8080;
 
+//Swagger Init
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.listen(8082, () => {
+app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
 });
 

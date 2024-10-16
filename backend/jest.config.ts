@@ -1,4 +1,3 @@
-// jest.config.ts
 import type { Config } from '@jest/types';
 
 const config: Config.InitialOptions = {
@@ -8,7 +7,7 @@ const config: Config.InitialOptions = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-  testMatch: ['**/__test__/**/*.test.ts'], // Matches test files in __test__ folder
+  testMatch: ['**/__test__/**/*.test.ts'], 
   collectCoverage: true,
   coverageDirectory: 'coverage',
 };

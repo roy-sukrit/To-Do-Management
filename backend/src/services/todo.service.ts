@@ -1,9 +1,17 @@
-import Todo, { ITodo } from '../models/todo';
+import Todo, { ITodo,CreateTodoInput } from '../models/todo';
+import { Model } from 'mongoose';
 
 class TodoService {
-    async createTodo(userDetail: string, title: string, description: string): Promise<ITodo> {
-        const todo = new Todo({ userDetail, title, description });
-        return await todo.save();
+    private todoModel: Model<ITodo>;
+
+    constructor(todoModel: Model<ITodo>) {
+      this.todoModel = todoModel;
+    }
+  
+    // Create new Todo
+    async createTodo(todoData: CreateTodoInput): Promise<ITodo> {
+      return await this.todoModel.create(todoData); 
+
     }
 }
 

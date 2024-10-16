@@ -6,6 +6,12 @@ export interface ITodo extends Document {
     description: string;
 }
 
+export interface CreateTodoInput {
+    userDetail: string;
+    title: string;
+    description: string;
+  }
+  
 const todoSchema = new Schema<ITodo>({
     userDetail: { type: String, required: true },
     title: { type: String, required: true },
