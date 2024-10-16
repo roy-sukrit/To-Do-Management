@@ -1,7 +1,7 @@
 import express from 'express';
-import todoRoutes from './routes/routes';
+import {todoRoutes} from './routes';
 import errorHandler from './middlewares/middleware';
-import connectDB from './database/database';
+import {connectDB} from './database';
 
 const app = express();
 

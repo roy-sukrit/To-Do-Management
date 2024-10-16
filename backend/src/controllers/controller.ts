@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import TodoService from '../services/todo.service';
+import {TodoService} from '../services';
 import logger from '../logger';
 
 class TodoController {

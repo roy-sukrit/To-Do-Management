@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import TodoController from '../controllers/controller';
+import {TodoController} from '../controllers';
 import TodoService from '../services/todo.service';
 import Todo from '../models/todo';
 
