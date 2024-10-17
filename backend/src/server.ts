@@ -1,6 +1,6 @@
 import app from './app';
 const swaggerUi = require('swagger-ui-express');
-const {swaggerSpec} = require('../docs/swagger.ts')
+const {swaggerSpec} = require('../docs/swagger')
 import logger from './logger';
 
 const PORT = process.env.PORT || 8080;
