@@ -9,10 +9,14 @@
     {
       "url": "http://localhost:8000",
       "description": "Local development server"
+    },
+    {
+      "url": "http://ec2-54-91-201-1.compute-1.amazonaws.com:8000",
+      "description": "QA environment"
     }
   ],
   "paths": {
-    "/todos": {
+    "/api/todos": {
       "get": {
         "summary": "Get all to-do items",
         "description": "Retrieve a list of all to-do items",
@@ -34,6 +38,39 @@
             "description": "Server error"
           }
         }
+      },
+      "post": {
+        "summary": "Create a new to-do item",
+        "description": "Create a new to-do item and return the created item",
+        "requestBody": {
+          "description": "To-do item to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToDo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "To-do item created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToDo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
       }
     }
   },
@@ -42,9 +79,9 @@
       "ToDo": {
         "type": "object",
         "properties": {
-          "id": {
+          "userDetail": {
             "type": "string",
-            "description": "Unique identifier for the to-do item"
+            "description": "Unique identifier for the user"
           },
           "title": {
             "type": "string",
@@ -53,20 +90,6 @@
           "description": {
             "type": "string",
             "description": "Detailed description of the to-do item"
-          },
-          "status": {
-            "type": "string",
-            "description": "Status of the to-do item (e.g., pending, completed)"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The time the to-do item was created"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The last time the to-do item was updated"
           }
         }
       }
