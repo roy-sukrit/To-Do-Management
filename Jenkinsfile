@@ -4,7 +4,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                echo "NODE_ENV: ${env.REMOTE_HOST_QA}"
 
 
                 // Command to install dependencies
@@ -19,12 +18,27 @@ pipeline {
                 // sh 'npm test'
             }
         }
-        stage('Deploy') {
+          stage('Deploy to EC2') {
             steps {
-                echo 'Deploying the application...'
-                // Command to deploy your application
-                // Replace with your deployment script/commands
-                // sh 'echo "Deploying to server..."'
+                script {
+                    // SSH command to navigate to the backend folder, pull the latest code, and restart PM2
+                    def sshCommand = """
+                        ssh ${REMOTE_HOST_QA_NAME}@${REMOTE_HOST_QA} << 'EOF'
+                        echo "Connecting to EC2 instance..."
+                        cd To-Do-Management/backend
+                        git pull // Adjust branch as necessary
+                        echo "Changed directory and pulled code"
+                        npm install
+                        echo "Installed dependencies."
+                        npm run build
+                        echo "Built the application."
+                        pm2 restart Server-qa
+                        echo "Restarted PM2 processes."
+                        EOF
+                    """
+                    echo 'Deploying to EC2...'
+                    sh sshCommand
+                }
             }
         }
     }
