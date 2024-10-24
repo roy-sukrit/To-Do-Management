@@ -4,9 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-
-
-                // Command to install dependencies
+                // Uncomment to install dependencies
                 // sh 'npm install'
             }
         }
@@ -14,20 +12,25 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                // Command to run your tests
+                // Uncomment to run your tests
                 // sh 'npm test'
             }
         }
-          stage('Deploy to EC2') {
+
+        stage('Deploy to EC2') {
             steps {
                 script {
+                    // Ensure the EC2 host is added to known_hosts
+                    sh "ssh-keyscan -H ${REMOTE_HOST_QA} >> ~/.ssh/known_hosts"
+
                     // SSH command to navigate to the backend folder, pull the latest code, and restart PM2
                     def sshCommand = """
                         ssh ${REMOTE_HOST_QA_NAME}@${REMOTE_HOST_QA} << 'EOF'
                         echo "Connecting to EC2 instance..."
-                        cd To-Do-Management/backend
+                        cd To-Do-Management/backend || exit 1
+                        echo "Changed directory to To-Do-Management/backend."
                         git pull // Adjust branch as necessary
-                        echo "Changed directory and pulled code"
+                        echo "Pulled latest code."
                         npm install
                         echo "Installed dependencies."
                         npm run build
