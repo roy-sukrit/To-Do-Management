@@ -1,8 +1,6 @@
 pipeline {
     agent any // Use any available agent
     stages {
-       
-        
         stage('Deploy to EC2') {
             steps {
                 script {
