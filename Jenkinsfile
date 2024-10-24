@@ -24,11 +24,11 @@ pipeline {
 
                     // SSH command to navigate to the backend folder, pull the latest code, and restart PM2
                     def sshCommand = """
-                        ssh ${REMOTE_HOST_QA_NAME}@${REMOTE_HOST_QA} << 'EOF'
+                        ssh -o StrictHostKeyChecking=no ${REMOTE_HOST_QA_NAME}@${REMOTE_HOST_QA} << 'EOF'
                         echo "Connecting to EC2 instance..."
                         cd To-Do-Management/backend || exit 1
                         echo "Changed directory to To-Do-Management/backend."
-                        git pull // Adjust branch as necessary
+                        git pull
                         echo "Pulled latest code."
                         npm install
                         echo "Installed dependencies."
