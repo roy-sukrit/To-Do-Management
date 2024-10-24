@@ -4,11 +4,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
+                echo "NODE_ENV: ${env.REMOTE_HOST_QA}"
+
+
                 // Command to install dependencies
                 // sh 'npm install'
             }
         }
-        
+
         stage('Test') {
             steps {
                 echo 'Running tests...'
