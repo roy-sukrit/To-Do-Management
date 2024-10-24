@@ -24,7 +24,7 @@ pipeline {
 
                     // SSH command to navigate to the backend folder, pull the latest code, and restart PM2
                     def sshCommand = """
-                        ssh -o StrictHostKeyChecking=no ${REMOTE_HOST_QA_NAME}@${REMOTE_HOST_QA} << 'EOF'
+                        ssh -vvv -o StrictHostKeyChecking=no ec2-user@<YOUR_EC2_IP_ADDRESS> << 'EOF'
                         echo "Connecting to EC2 instance..."
                         cd To-Do-Management/backend || exit 1
                         echo "Changed directory to To-Do-Management/backend."
