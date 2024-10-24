@@ -21,7 +21,6 @@ pipeline {
             steps {
                 script {
                     // Ensure the EC2 host is added to known_hosts
-                    sh "ssh-keyscan -H ${REMOTE_HOST_QA} >> ~/.ssh/known_hosts"
 
                     // SSH command to navigate to the backend folder, pull the latest code, and restart PM2
                     def sshCommand = """
