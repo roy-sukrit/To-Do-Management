@@ -1,16 +1,15 @@
 pipeline {
-    agent any // Use any available agent
+    agent any
     stages {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    // SSH command to navigate to the backend folder, pull the latest code, and restart PM2
                     def sshCommand = """
-                        ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << 'EOF'
-                        echo "Connecting to EC2 instance..."                       
+                        ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 <<EOF
+                        echo "Connecting to EC2 instance..."
                         cd To-Do-Management/backend
                         echo "Changed directory to backend."
-                        git pull origin main // Adjust branch as necessary
+                        git pull origin main
                         echo "Pulled latest code from repository."
                         npm install
                         echo "Installed dependencies."
