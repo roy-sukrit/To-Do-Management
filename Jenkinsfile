@@ -15,7 +15,6 @@ pipeline {
                             npm install
                             npm run build
                             pm2 restart Server-qa --update-env
-                            EOF
                         '''
                     }
                 }
