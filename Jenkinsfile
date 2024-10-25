@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploying to QA Server AWS-EC2 Instance') {
+        stage('Deploy to QA Env') {
             steps {
                 sshagent(['JENKIN_PK']) { 
                     script {
