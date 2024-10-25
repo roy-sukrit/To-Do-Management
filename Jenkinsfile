@@ -3,11 +3,9 @@ pipeline {
     stages {
         stage('Deploy to EC2') {
             steps {
-                script {
-                   sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184'
-                   echo 'Success '
-
-                }
+                sshagent(['JENKIN_PK']) { // Replace with your credentials ID
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184' 
+               }
             }
         }
     }
