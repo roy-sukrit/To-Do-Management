@@ -1,29 +1,36 @@
 pipeline {
-    agent any // Use any available agent
+    agent any
+
     stages {
-        stage('Build') {
+        stage('Deploy to EC2') {
             steps {
-                echo 'Building the application...'
-                // Command to install dependencies
-                // sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                // Command to run your tests
-                // sh 'npm test'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                // Command to deploy your application
-                // Replace with your deployment script/commands
-                // sh 'echo "Deploying to server..."'
+                sshagent(['JENKIN_PK']) { 
+                    script {
+
+                        sh '''
+                            ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << 'EOF'
+                            cd To-Do-Management/backend
+                            git checkout develop-qa
+                            git pull
+                            npm install
+                            npm run build
+                            echo 'Started : Starting Backend Server!'
+                            pm2 restart Server-qa --update-env
+                            echo 'Completed : Backend Server is up and running Succesfully!'
+                            cd ../frontend
+                            npm install
+                            npm run build
+                            echo 'Started : Starting Frontend Server!'
+                            pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s ./dist
+                            echo 'Completed : Client Server is up and running Succesfully!'
+                        '''
+
+                    }
+                }
             }
         }
     }
+
     post {
         success {
             echo 'Pipeline completed successfully!'
