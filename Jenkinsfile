@@ -4,9 +4,9 @@ pipeline {
     stages {
         stage('Deploy to EC2') {
             steps {
-                sshagent(['JENKIN_PK']) { // Replace with your credentials ID
+                sshagent(['JENKIN_PK']) { 
                     script {
-                        // SSH into the EC2 instance and execute commands
+
                         sh '''
                             ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << 'EOF'
                             cd To-Do-Management/backend
@@ -14,8 +14,17 @@ pipeline {
                             git pull
                             npm install
                             npm run build
+                            echo 'Started : Starting Backend Server!'
                             pm2 restart Server-qa --update-env
+                            echo 'Completed : Backend Server is up and running Succesfully!'
+                            cd ../frontend
+                            npm install
+                            npm run build
+                            echo 'Started : Starting Frontend Server!'
+                            pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s ./dist
+                            echo 'Completed : Client Server is up and running Succesfully!'
                         '''
+
                     }
                 }
             }
