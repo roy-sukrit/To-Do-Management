@@ -10,7 +10,7 @@ pipeline {
                         sh '''
                             ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << 'EOF'
                             cd To-Do-Management/backend
-                            git checkout develo-qa
+                            git checkout develop-qa
                             git pull
                             npm install
                             npm run build
