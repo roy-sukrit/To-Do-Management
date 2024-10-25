@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     def sshCommand = """
-                        ssh -t -t ec2-user@172.31.47.184 <<EOF
+                        ssh -t -t $JENKINS_SSH ec2-user@172.31.47.184 <<EOF
                         echo "Connecting to EC2 instance..."
                         cd To-Do-Management/backend
                         echo "Changed directory to backend."
