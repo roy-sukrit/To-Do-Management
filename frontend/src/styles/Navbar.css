@@ -1,0 +1,33 @@
+nav {
+    background: rgb(255, 255, 255);
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #eb256e;
+  }
+  
+  .nav-links a {
+    margin-left: 2rem;
+    text-decoration: none;
+    color: #4b5563;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #2563eb;
+  }
