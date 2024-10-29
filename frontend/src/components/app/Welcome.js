@@ -31,7 +31,7 @@ export default function Welcome() {
                         className='my-3 bg-rose-500 text-white hover:bg-rose-700
                         font-bold py-2 px-4 rounded-lg'
                         onClick={handleSetName}>
-                        Continue
+                        Continue 
                     </button>
                 </div>
             </div>
