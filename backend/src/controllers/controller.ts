@@ -24,12 +24,12 @@ class TodoController {
             // Assuming categories is an array of objects with name, slug, and _id
             const categoryIds = await Promise.all(
                 categories.map(async (cat: any) => {
-                    const existingCategory = await Category.findOne({ name: cat.name, slug: cat.slug });
+                    const existingCategory = await Category.findOne({email:cat.email, name: cat.name, slug: cat.slug });
                     // If the category exists, push its _id; otherwise, create it
                     if (existingCategory) {
                         return existingCategory._id;
                     } else {
-                        const newCategory = new Category({ name: cat.name, slug: cat.slug });
+                        const newCategory = new Category({ email:email,name: cat.name, slug: cat.slug });
                         const savedCategory = await newCategory.save();
                         return savedCategory._id;
                     }
