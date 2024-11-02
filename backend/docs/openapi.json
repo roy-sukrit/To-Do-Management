@@ -1,95 +1,347 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "To-Do API Schemas",
-    "description": "This is the OPEN API for our Todo Application",
-    "version": "1.0.0"
+    "title": "Todo API",
+    "version": "1.0.0",
+    "description": "API for managing todo items and categories."
   },
   "servers": [
     {
-      "url": "http://localhost:8000",
-      "description": "Local development server"
+      "description": "SwaggerHub API Auto Mocking",
+      "url": "https://virtserver.swaggerhub.com/ROYSUKRIT78/todo/1.0.0"
     },
     {
-      "url": "http://ec2-54-91-201-1.compute-1.amazonaws.com:8000",
-      "description": "QA environment"
+      "url": "http://ec2-54-91-201-1.compute-1.amazonaws.com:8000/api"
     }
   ],
   "paths": {
-    "/api/todos": {
-      "get": {
-        "summary": "Get all to-do items",
-        "description": "Retrieve a list of all to-do items",
-        "responses": {
-          "200": {
-            "description": "A list of to-do items",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ToDo"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      },
+    "/todos": {
       "post": {
-        "summary": "Create a new to-do item",
-        "description": "Create a new to-do item and return the created item",
+        "summary": "Create Todo",
         "requestBody": {
-          "description": "To-do item to be created",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ToDo"
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "My first todo"
+                  },
+                  "done": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Work"
+                        },
+                        "slug": {
+                          "type": "string",
+                          "example": "work"
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "To-do item created",
+            "description": "Todo created successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All Todos",
+        "responses": {
+          "200": {
+            "description": "A list of todos",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ToDo"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "67263c328fbdb449d71bfe78"
+                      },
+                      "text": {
+                        "type": "string",
+                        "example": "My first todo"
+                      },
+                      "done": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/todos/{id}": {
+      "get": {
+        "summary": "Get Todo by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Todo found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "example": "My first todo"
+                    },
+                    "done": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
                 }
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
+          "404": {
+            "description": "Todo not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Todo By Id",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "67225693c4aff1821c1e138a"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "My first todo Updated Again"
+                  },
+                  "done": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "67263cfd8fbdb449d71bfe7c"
+                    }
+                  }
+                }
+              }
+            }
           },
-          "500": {
-            "description": "Server error"
+          "responses": {
+            "200": {
+              "description": "Todo updated successfully"
+            },
+            "404": {
+              "description": "Todo not found"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Todo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Todo deleted successfully"
+          },
+          "404": {
+            "description": "Todo not found"
           }
         }
       }
-    }
-  },
-  "components": {
-    "schemas": {
-      "ToDo": {
-        "type": "object",
-        "properties": {
-          "userDetail": {
-            "type": "string",
-            "description": "Unique identifier for the user"
+    },
+    "/categories": {
+      "post": {
+        "summary": "Create Category",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "SukritCategory2"
+                  },
+                  "slug": {
+                    "type": "string",
+                    "example": "suk2"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "roysukrit79@gmail.com"
+                  }
+                }
+              }
+            }
           },
-          "title": {
-            "type": "string",
-            "description": "Title of the to-do item"
+          "responses": {
+            "201": {
+              "description": "Category created successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All Categories",
+        "responses": {
+          "200": {
+            "description": "A list of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "67263cfd8fbdb449d71bfe7c"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Category Name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a category by ID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "roysukrit79@gmail.com"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "example": "67263cfd8fbdb449d71bfe7c"
+                  },
+                  "updateData": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "Updated Category Name"
+                      },
+                      "slug": {
+                        "type": "string",
+                        "example": "updated-category-slug"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
-          "description": {
-            "type": "string",
-            "description": "Detailed description of the to-do item"
+          "responses": {
+            "200": {
+              "description": "Category updated successfully"
+            },
+            "404": {
+              "description": "Category not found"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "delete": {
+        "summary": "Delete Category",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Category deleted successfully"
+          },
+          "404": {
+            "description": "Category not found"
           }
         }
       }
