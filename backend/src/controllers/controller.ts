@@ -22,26 +22,26 @@ class TodoController {
             }
 
             // Assuming categories is an array of objects with name, slug, and _id
-            const categoryIds = await Promise.all(
-                categories.map(async (cat: any) => {
-                    const existingCategory = await Category.findOne({email:cat.email, name: cat.name, slug: cat.slug });
-                    // If the category exists, push its _id; otherwise, create it
-                    if (existingCategory) {
-                        return existingCategory._id;
-                    } else {
-                        const newCategory = new Category({ email:email,name: cat.name, slug: cat.slug });
-                        const savedCategory = await newCategory.save();
-                        return savedCategory._id;
-                    }
-                })
-            );
+            // const categoryIds = await Promise.all(
+            //     categories.map(async (cat: any) => {
+            //         const existingCategory = await Category.findOne({email, name: cat.name, slug: cat.slug });
+            //         // If the category exists, push its _id; otherwise, create it
+            //         if (existingCategory) {
+            //             return existingCategory._id;
+            //         } else {
+            //             const newCategory = new Category({ email:email,name: cat.name, slug: cat.slug });
+            //             const savedCategory = await newCategory.save();
+            //             return savedCategory._id;
+            //         }
+            //     })
+            // );
 
             // Create the Todo with the category references
             const todo = new Todo({
                 email,
                 text,
                 done,
-                categories: categoryIds, // Using the _id from the categories
+                categories, // Using the _id from the categories
             });
 
             await todo.save();
@@ -86,8 +86,8 @@ class TodoController {
     async update(req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
             const { id } = req.params;
-            const { email, text, done, categories } = req.body; // Updated 'category' to 'categories'
-            const updatedTodo = await this.todoService.updateTodo(id, { email, text, done, categories }); // Updated 'category' to 'categories'
+            const { email, text, done, categories } = req.body; 
+            const updatedTodo = await this.todoService.updateTodo(id, { email, text, done, categories }); 
             if (!updatedTodo) {
                 return res.status(404).json({ message: "Todo not found." });
             }
@@ -106,7 +106,7 @@ class TodoController {
             if (!deleted) {
                 return res.status(404).json({ message: "Todo not found." });
             }
-            res.status(204).send();
+            res.status(200).json({message:"Deleted To DO Succesfully"});
         } catch (error) {
             logger.error('Failed to delete Todo!');
             next(error);
@@ -120,6 +120,7 @@ class TodoController {
             if (!name || !slug || !email) {
                 return res.status(400).json({ message: "Name and slug n email are required for category." });
             }
+
             const category = await this.todoService.createCategory({ name, slug, email });
             res.status(201).json(category);
         } catch (error) {
@@ -150,6 +151,8 @@ class TodoController {
             }
 
             await this.todoService.deleteCategoryById(id);
+           
+
             res.status(200).json({ message: 'Category deleted successfully' });
         } catch (error) {
             next(error);

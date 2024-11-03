@@ -2,6 +2,7 @@ import  { CreateTodoInput, ITodo } from '../models/todo'
 import { ICategory } from '../models/category';
 ;
 import { Model } from 'mongoose';
+import { log } from 'winston';
 
 class TodoService {
     private todoModel: Model<ITodo>;
@@ -41,7 +42,14 @@ class TodoService {
     }
 
  // Create a new Category with auto-incremented ID
- async createCategory(categoryData: { email:string,name: string; slug: string }): Promise<ICategory> {
+ async createCategory(categoryData: { email:string,name: string; slug: string }): Promise<any> {
+    const checkExisting = await this.categoryModel.find(categoryData);
+    console.log("checkExisting",checkExisting);
+    
+    if(checkExisting.length) return {
+        message:"Category Exists"
+    }
+
   const category = this.categoryModel.create(categoryData);
   return category;
 }
@@ -51,8 +59,12 @@ async getAllCategories(email: string): Promise<ICategory[]> {
   return await  this.categoryModel.find({ email });
 }
 
-async deleteCategoryById(id: string): Promise<void> {
+async deleteCategoryById(id: string): Promise<any> {
+     //Also delete
+     await this.categoryModel.findOneAndDelete({ _id: id });
     await  this.categoryModel.findByIdAndDelete(id);
+
+    return ["Successfully Delete Category"]
 }
 async updateCategoryByEmail(email:string, categoryId:string, updateData:any) {
     try {
