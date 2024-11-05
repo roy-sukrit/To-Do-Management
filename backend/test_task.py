@@ -1,78 +1,179 @@
 import requests
 import pytest
-from backend.config import base_url
+import allure
+from config import base_url
 
+category_id = None
+task_id = None
+
+@allure.label('category', 'to-do-task')
+@allure.feature('get task')
+@allure.story('get all to-do-task through email')
 def test_getTask(base_url):
     url = f"{base_url}/todos"
     res = requests.get(url)
-    # print(res.json())
     assert res.status_code == 200
 
-def test_createTask(base_url):
+@allure.feature('get category')
+@allure.story('get all category through email')
+def test_getCategory(base_url):
+    url = f"{base_url}/categories/sheen729@gmail.com"
+    res = requests.get(url)
+    assert res.status_code == 200    
+
+@pytest.mark.smoke
+@allure.feature('create category')
+@allure.story('create a to-do-task cartegory')    
+@pytest.mark.parametrize("data, status_code",[
+  ({"name": "categoryname",
+    "slug": "task",
+    "email":"sheen729@gmail.com"}, 201),
+  ({"name": "",
+    "slug": "task",
+    "email":"sheen729@gmail.com"}, 400),
+  ({"name": "categoryname1",
+    "slug": "",
+    "email":"sheen729@gmail.com"}, 400),
+  ({"name": "categoryname1",
+    "slug": "task",
+    "email":""}, 400)])
+def test_createCategory(base_url, data, status_code):
+    global category_id 
+    url = f"{base_url}/categories"
+    res = requests.post(url, json=data)
+    print(res.json())
+    if res.status_code == 201:
+       category_id = res.json()['_id']
+    assert res.status_code == status_code
+
+
+
+@allure.feature('create task')
+@allure.story('create a to-do-task in category')
+@pytest.mark.parametrize("data, status_code", [
+  ({
+    "email": "sheen729@gmail.com",
+    "text": "My first todo",
+    "done": "false",
+    "categories": []}, 201),
+  ({
+    "email": "",
+    "text": "My first todo",
+    "done": "false",
+    "categories": []}, 400),
+  ({
+    "email": "sheen729@gmail.com",
+    "text": "",
+    "done": "false",
+    "categories": []}, 400),
+  ({
+    "email": "sheen729@gmail.com",
+    "text": "My first todo",
+    "done": "",
+    "categories": []}, 500)])
+def test_createTask(base_url, data, status_code):
+    global category_id
+    global task_id
+    data["category"] = [{"_id" : category_id}]
     url = f"{base_url}/todos"
-    data = {
-  "id": "string",
-  "text": "string",
-  "done": True,
-  "email": "user@example.com",
-  "category": [
-    {
-      "id": 0,
-      "name": "string",
-      "slug": "string"
-    }
-  ],
-  "createdAt": "2024-11-01T12:47:17.372Z",
-  "updatedAt": "2024-11-01T12:47:17.372Z"
-}
-    res = requests.post(url,data)
+    res = requests.post(url,json=data)
     # print(res.json())
-    assert res.status_code == 201
+    if res.status_code == 201:
+       task_id = res.json()['_id']
+    assert res.status_code == status_code
 
 
-def test_getTask(base_url):
-    url = f"{base_url}/todos/0"
+
+@allure.feature('get single task')
+@allure.story('get to-do-task by task id') 
+def test_searchTask(base_url):
+    url = f"{base_url}/todos/672766f355d1cdbbc1f45135"
     res = requests.get(url)
-    # print(res.json())
     assert res.status_code == 200
 
-def test_getSingleTask(base_url):
-    url = f"{base_url}/todos/0"
-    res = requests.get(url)
-    # print(res.json())
-    assert res.status_code == 200
-    
-    
-def test_updataTask(base_url):
-    url = f"{base_url}/todos/0"
-    data = {
-  "id": "string",
-  "text": "string",
-  "done": True,
-  "email": "user@example.com",
-  "category": [
-    {
-      "id": 0,
-      "name": "string",
-      "slug": "string"
-    }
-  ],
-  "createdAt": "2024-11-01T12:56:47.518Z",
-  "updatedAt": "2024-11-01T12:56:47.518Z"
-}
+
+@allure.feature('update task')
+@allure.story('update the task status and task text')
+@pytest.mark.parametrize("data, status_code",[
+  ({
+        "done": "true",
+        "text": "test111"
+    }, 200),
+  ({
+        "done": "false"
+    }, 200),
+  ({
+        "text": "test222"
+    }, 200)
+])  
+def test_updataTask(base_url, data, status_code):
+    global task_id 
+    url = f"{base_url}/todos/{task_id}"
     res = requests.put(url,data)
     # print(res.json())
-    assert res.status_code == 200
-    
+    assert res.status_code == status_code
+
+
+@allure.feature('update category')
+@allure.story('update the category text')
+@pytest.mark.parametrize("data, status_code",[
+  ({
+    "categoryId": "672766f355d1cdbbc1f45135",
+    "email": "j835574934@gmail.com",
+    "updateData": {
+        "name": "Updated Category By SHeen",
+        "slug": "task"
+    }
+    }, 200),
+  ({
+    "categoryId": "672766f355d1cdbbc1f45135",
+    "email": "j835574934@gmail.com",
+    "updateData": {
+        "name": "",
+        "slug": "task"
+    }
+    }, 500),
+  ({
+    "categoryId": "672766f355d1cdbbc1f45135",
+    "email": "j835574934@gmail.com",
+    "updateData": {
+        "name": "Updated Category By SHeen",
+        "slug": ""
+    }
+    }, 500)
+])      
+def test_updataCategory(base_url, data, status_code):
+    url = f"{base_url}/categories"
+    res = requests.put(url,json=data)
+    assert res.status_code == status_code
+
+
+
+@allure.feature('delete task')
+@allure.story('delete tato-do-tasksk by task id') 
 def test_deleteTask(base_url):
-    url = f"{base_url}/todos/0"
+    global task_id
+    url = f"{base_url}/todos/{task_id}"
     res = requests.delete(url)
     print(res)
+
+
+
+@allure.feature('delete category')
+@allure.story('delete category by category id')    
+def test_deleteCategory(base_url):
+    global category_id 
+    print(category_id)
+    url = f"{base_url}/categories/{category_id}"
+    res = requests.delete(url)
+    assert res.status_code == 200
     
-    
+
     
 if __name__ == "__main__":
     test_getTask(base_url)
     test_createTask(base_url)
     test_updataTask(base_url)
     test_deleteTask(base_url)
+    test_deleteCategory(base_url)
+    test_createCategory(base_url)
