@@ -4,3 +4,6 @@ dist
 coverage
 logs
 .DS_Store
+.pytest_cache
+.history
+__pycache__
