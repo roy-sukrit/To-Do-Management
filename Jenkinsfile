@@ -7,21 +7,26 @@ pipeline {
                 sshagent(['JENKIN_PK']) {
                     script {
                         sh '''
-                            ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << 'EOF'
+                            ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << EOF
+                            set -e  # Exit on error
+                            
+                            # Backend deployment
                             cd To-Do-Management/backend
                             git checkout develop-qa
                             git pull
                             npm install
                             npm run build
-                            echo 'Started : Starting Backend Server!'
+                            echo 'Starting Backend Server...'
                             pm2 restart "Server-qa" --update-env || pm2 start npm --name "Server-qa" -- start
-                            echo 'Completed : Backend Server is up and running Successfully!'
+                            echo 'Backend Server is running successfully!'
+                            
+                            # Frontend deployment
                             cd ../frontend
                             npm install
                             npm run build
-                            echo 'Started : Starting Frontend Server!'
-                            pm2 restart "Client-qa" --update-env || pm2 start npx --name “Client-qa” -- serve -s ./dist
-                            echo 'Completed : Client Server is up and running Successfully!'
+                            echo 'Starting Frontend Server...'
+                            pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s build
+                            echo 'Frontend Server is running successfully!'
                             EOF
                         '''
                     }
