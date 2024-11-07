@@ -25,8 +25,7 @@ pipeline {
                             npm run build
                             echo 'Starting Frontend Server...'
                             pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s build
-                            echo 'Frontend Server is running successfully!'
-                            EOF
+                            echo 'Frontend Server is running successfully!'       
                         '''
                     }
                 }
