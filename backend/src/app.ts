@@ -5,10 +5,10 @@ import {connectDB} from './database';
 import cors from 'cors';
 
 const app = express();
+app.use(cors({origin:'*'}))
 
 app.use(express.json());
 app.use('/api', todoRoutes);
-app.use(cors({origin:'*'}))
 //Init Mongoose
 connectDB();
 
