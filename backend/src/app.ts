@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use('/api', todoRoutes);
-app.use(cors())
+app.use(cors({origin:'*'}))
 //Init Mongoose
 connectDB();
 
