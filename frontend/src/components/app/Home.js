@@ -1,19 +1,39 @@
-import { useUserState } from '../../contexts/UserContext'
-import Category from '../category/Category'
-import Todo from '../todo/Todo'
-import Welcome from './Welcome'
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useUserState } from '../../contexts/UserContext';
+import Category from '../category/Category';
+import Todo from '../todo/Todo';
+import Welcome from './Welcome';
 
 const Home = () => {
-    const {userName} = useUserState();
+  const navigate = useNavigate(); // Navigation hook
+  const location = useLocation(); // Get the location object
 
-    return (
-        <div className="flex flex-row max-w-screen max-h-screen 
-            items-center justify-between p-10 bg-gray-100">
-            <Category/>
-            <Todo />
-            {userName=="" && <Welcome/>}
-        </div>
-    )
-}
+  // Make sure the location.state exists before attempting to access profile
+  const { profile } = location.state || {};
+  const { userEmail = '', userName = '', isAuthenticated = false } = profile || {};
 
-export default Home
+  // Check if location.state is null or if the user is not authenticated
+  useEffect(() => {
+    if (!location.state || !isAuthenticated) {
+      navigate('/404', { replace: true });
+    }
+  }, [location, isAuthenticated, navigate]);
+
+  // If not authenticated or state is not valid, don't render the page
+  if (!isAuthenticated || !profile) {
+    return null; // Avoid rendering while redirecting
+  }
+
+  console.log("Home Screen", userEmail, userName, isAuthenticated);
+
+  return (
+    <div className="flex flex-row max-w-screen max-h-screen items-center justify-between p-10 bg-gray-100">
+      <Category userEmail={userEmail} userName={userName} isAuthenticated={isAuthenticated} />
+      <Todo userEmail={userEmail} userName={userName} isAuthenticated={isAuthenticated} />
+      {userName === "" && <Welcome />}
+    </div>
+  );
+};
+
+export default Home;

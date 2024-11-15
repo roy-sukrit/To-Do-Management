@@ -1,13 +1,22 @@
+import { useEffect, useState } from 'react';
 import { useCategoryState } from '../../contexts/CategoryContext'
 import CategoryItem from './CategoryItem';
 
 
-const CategoryList = () => {
+const CategoryList = ({category}) => {
+
+
+    const [categoryList,setCategories] = useState([])
+    console.log("categories CategoryList",category);
+    useEffect(()=>{
+        console.log("category list",category);
+        setCategories([...categoryList,category])
+    },[category])
     const categoryState = useCategoryState();
-    const CategoryList = categoryState.map(item => (
+    const CategoryList = category.map(item => (
         <CategoryItem
-            key={item.id}
-            id={item.id}
+            key={item._id}
+            id={item._id}
             name={item.name}
             slug={item.slug} />
     ))
