@@ -16,8 +16,31 @@ export const createTodo = async (todoData) => {
   return response.data;
 };
 
+export const deleteTodo = async (id) => {
+  const response = await apiClient.delete(`/todos/${id}`);
+  return response.data;
+};
+
+export const deleteCategory = async (id) => {
+  const response = await apiClient.delete(`/categories/${id}`);
+  return response.data;
+};
+
+
+
+export const updateTodo = async (id,payload) => {
+  const response = await apiClient.put(`/todos/${id}`,payload);
+  return response.data;
+};
 
 export const createCategory = async (todoData) => {
     const response = await apiClient.post('/categories', todoData);
+    return response.data;
+  };
+
+  export const loadTodosByCategory = async (id) => {
+    const response = await apiClient.get(`/todos/${id}`);
+    console.log("loadTodosByCategory response",response);
+
     return response.data;
   };

@@ -3,8 +3,9 @@ import { useCategoryState } from '../../contexts/CategoryContext';
 import { usePathState } from '../../contexts/PathContext';
 import { useTodoDispatch } from '../../contexts/TodoConext'
 import { v4 as uuidv4 } from 'uuid';
+import { createTodo } from '../../api/services/todo.service';
 
-const TodoCreate = () => {
+const TodoCreate = ({ userEmail, currentCategory,onAddTodo }) => {
   const [todoText, setTodoText] = useState('');
   const { path } = usePathState();
   const todoDispatch = useTodoDispatch();
@@ -16,7 +17,28 @@ const TodoCreate = () => {
   useEffect(() => {
     inputRef.current?.focus();
   }, [])
-  
+
+  const createTodoHandler = async () => {
+
+    try {
+      let payload = {
+        email: userEmail,
+        text: todoText,
+        categories: [{ _id: currentCategory }]
+      }
+
+      const createTodoAPI = await createTodo(payload);
+      console.log('TodoCreate -> :', createTodoAPI);
+      onAddTodo(createTodoAPI);
+
+
+    }
+    catch (error) {
+      console.error("Error While creating todo", error)
+    }
+
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (!todoText) return;
@@ -30,8 +52,12 @@ const TodoCreate = () => {
         category: filterCategory
       }
     });
+
+    createTodoHandler();
     setTodoText('');
   }
+
+
 
   return (
     <div
@@ -54,4 +80,5 @@ const TodoCreate = () => {
   )
 }
 
-export default React.memo(TodoCreate)
+export default TodoCreate;
+
