@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
     const [userName, setUserName] = useState(init);
 
     useEffect(() => {
-        if(JSON.parse(localStorage.getItem('userName'))) setUserName(JSON.parse(localStorage.getItem('userName')))
+        // if(JSON.parse(localStorage.getItem('userName'))) setUserName(JSON.parse(localStorage.getItem('userName')))
     }, []);
 
 

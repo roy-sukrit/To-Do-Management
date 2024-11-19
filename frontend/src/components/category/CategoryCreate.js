@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCategoryDispatch, useCategoryState } from '../../contexts/CategoryContext';
 import { FaPlus } from "react-icons/fa";
 import { usePathState } from '../../contexts/PathContext';
 import { v4 as uuidv4 } from 'uuid';
+import { createCategory, fetchTodos } from '../../api/services/todo.service';
+import slugify from 'react-slugify';
 
-export default function CategoryCreate() {
+export default function CategoryCreate({category,setCategories,userEmail}) {
+   
     const [categoryName, setCategoryName] = useState("");
     const categoryState = useCategoryState();
     const dispatch = useCategoryDispatch();
     const { changePath } = usePathState();
 
-    const handleCreateCategory = (e) => {
+   
+    const handleCreateCategory = async(e) => {
         e.preventDefault();
         if (!categoryName) return;
         if (categoryState.map(item => item.name).includes(categoryName)) return;
@@ -23,6 +27,16 @@ export default function CategoryCreate() {
                 slug: `${categoryName}`
             }
         })
+        
+
+        //Added Db Call 
+         const newCategory = await createCategory({
+                    name: categoryName,
+                    slug: slugify(categoryName),
+                    email:userEmail,
+                });
+
+        setCategories([...category,newCategory])
         setCategoryName("")
         changePath(`${categoryName}`);
     }

@@ -4,8 +4,9 @@ import { TodoProvider } from "../../contexts/TodoConext";
 import { UserProvider } from "../../contexts/UserContext";
 import { PathStateProvider } from '../../contexts/PathContext';
 import Home from './Home';
+import NotFound from './NotFound';
+
 import All from './All';
-import Hero from '../../components/Hero';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 {/* Additional route for All component if needed */}
                 <Route path="/all" element={<All />} />
+                <Route path="/404" element={<NotFound />} />
+ {/* Catch-all route for unmatched paths */}
+ <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>
           </PathStateProvider>
