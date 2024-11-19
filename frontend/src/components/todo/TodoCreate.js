@@ -16,6 +16,7 @@ const TodoCreate = ({ userEmail, currentCategory,onAddTodo }) => {
 
   useEffect(() => {
     inputRef.current?.focus();
+    console.log("currentCategory To Do Create -> ",currentCategory);
   }, [])
 
   const createTodoHandler = async () => {

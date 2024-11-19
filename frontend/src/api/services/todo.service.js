@@ -12,6 +12,8 @@ export const fetchCategories = async (email) => {
   };
 
 export const createTodo = async (todoData) => {
+  console.log("todoData",todoData);
+
   const response = await apiClient.post('/todos', todoData);
   return response.data;
 };

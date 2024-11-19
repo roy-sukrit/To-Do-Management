@@ -79,11 +79,19 @@ function Hero() {
       <p>The simple, powerful todo app that helps you get things done</p>
       <Link to="/home" className="cta-button">Get Started - It's Free</Link>
 
-      <div className="google-login">
-        <GoogleLogin
+      <div className="cta-button">
+        {/* <GoogleLogin
+        
           onSuccess={handleGoogleLoginSuccess}
           onError={handleGoogleLoginFailure}
-        />
+        /> */}
+
+<GoogleLogin
+    onSuccess={handleGoogleLoginSuccess}
+    onError={handleGoogleLoginFailure}
+    
+    
+  />
       </div>
     </section>
   );

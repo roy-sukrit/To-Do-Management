@@ -13,10 +13,7 @@ export default function CategoryCreate({category,setCategories,userEmail}) {
     const dispatch = useCategoryDispatch();
     const { changePath } = usePathState();
 
-    useEffect(async()=>{
-        console.log("fetchTodos",await fetchTodos())
-    },[])
-
+   
     const handleCreateCategory = async(e) => {
         e.preventDefault();
         if (!categoryName) return;

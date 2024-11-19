@@ -13,7 +13,7 @@ const TodoList = ({userEmail,currentCategory,todoList,setTodoList}) => {
 
   useEffect(()=>{
     console.log("todolist",currentCategory,userEmail);
-    loadTodosByCategoryHandler();
+    if(currentCategory){loadTodosByCategoryHandler()};
   },[currentCategory,taskBoolean])
 
   //Load Todos based on category

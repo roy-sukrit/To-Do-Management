@@ -3,14 +3,21 @@ import CategoryCreate from './CategoryCreate'
 import CategoryList from './CategoryList'
 import { useEffect } from 'react'
 import slugify from 'react-slugify';
-
 import { createCategory, fetchCategories } from '../../api/services/todo.service'
-export default function Category({ userEmail, isAuthenticated, userName, setCurrentCategory, currentCategory }) {
-    console.log("Category -> setCurrentCategory:", setCurrentCategory);
 
+export default function Category({
+    userEmail,
+    isAuthenticated,
+    userName,
+    setCurrentCategory,
+    currentCategory }) {
+
+
+        //Local Category State
     const [category, setCategories] = useState([]);
-    
+
     //Use Effect Calls
+
     useEffect(() => {
         console.log("Category -> Use Effect1", userEmail, isAuthenticated, userName);
         categoryHandler(userEmail);
@@ -46,8 +53,13 @@ export default function Category({ userEmail, isAuthenticated, userName, setCurr
                 });
 
                 console.log('New Category', newCategory);
+                setCurrentCategory(newCategory._id)
+                console.log("current category ",currentCategory);
                 setCategories([newCategory]); // Add the new category
             } else {
+                setCurrentCategory(categoryDataAPI._id)
+                console.log("current category ",currentCategory);
+
                 setCategories(categoryDataAPI); // Set fetched categories
             }
         } catch (error) {
@@ -61,8 +73,18 @@ export default function Category({ userEmail, isAuthenticated, userName, setCurr
             className='flex  flex-col h-screen pl-5 pt-12 w-2/5 pb-12'>
             <div
                 className='bg-white h-screen p-9 rounded-lg'>
-                <CategoryCreate category={category} setCategories={setCategories} userEmail={userEmail} />
-                <CategoryList handleCategorySelect={handleCategorySelect}  setCategories={setCategories} currentCategory={currentCategory} category={category} setCurrentCategory={setCurrentCategory}/>
+
+                <CategoryCreate category={category} 
+                setCategories={setCategories} 
+                userEmail={userEmail} />
+
+                <CategoryList handleCategorySelect={handleCategorySelect} 
+                setCategories={setCategories} 
+                currentCategory={currentCategory}
+                userEmail={userEmail}
+                 category={category} 
+                 categoryHandler={categoryHandler}
+                 setCurrentCategory={setCurrentCategory} />
 
             </div>
         </aside>

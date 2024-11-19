@@ -10,7 +10,10 @@ const CategoryItem = ({ id,
      handleCategorySelect,
      setCurrentCategory,
      category,
-     setCategories }) => {
+     userEmail,
+     categoryHandler,
+     setCategories,
+     categoryList }) => {
 
 
     const categoryDispath = useCategoryDispatch();
@@ -24,7 +27,7 @@ const CategoryItem = ({ id,
 
         categoryDispath({ type: "REMOVE", id })
         deleteCategoryAPI(id)
-        changePath('/')
+        changePath('/home')
     }
 
     const deleteCategoryAPI = async(id) => {
@@ -38,17 +41,20 @@ const CategoryItem = ({ id,
 
 
 
-    console.log("deleteCategoryAPI Func After->",category);
     const updatedCategories = category.filter((cat) => cat._id !== id);
 
     console.log("updatedCategories",updatedCategories);
 
+    // setCategories([updatedCategories]);
+    categoryHandler(userEmail)
+
+    console.log("deleteCategoryAPI Func After->",category);
+
     // Determine the new current category
     const previousCategory = updatedCategories.length > 0 ? updatedCategories[0] : null;
 
-    console.log("previousCategory",previousCategory);
+  
     // Update state
-    setCategories(updatedCategories);
     setCurrentCategory(previousCategory._id);
 
     }
