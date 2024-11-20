@@ -22,7 +22,7 @@ const Home = () => {
     // Authentication
     useEffect(() => {
         if (!location.state || !isAuthenticated) {
-            navigate('/404', { replace: true });
+            navigate('/', { replace: true });
         }
 
         console.log("Home Use Effect ->", userEmail, userName, isAuthenticated);
