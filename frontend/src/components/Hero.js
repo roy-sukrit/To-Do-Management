@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import gsap from 'gsap';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import {  useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import { GoogleLogin } from '@react-oauth/google';
 import '../styles/Hero.css';
 import { jwtDecode } from 'jwt-decode';
 
-import axios from 'axios';
+
 function Hero() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // State to track authentication
   const [profile, setProfile] = useState([]);
+  
 
   const navigate = useNavigate(); // Navigation hook
 
@@ -77,7 +78,7 @@ function Hero() {
     <section className="hero">
       <h1>Organize Your Life with Agile To-Do</h1>
       <p>The simple, powerful todo app that helps you get things done</p>
-      <Link to="/home" className="cta-button">Get Started - It's Free</Link>
+      
 
       <div className="cta-button">
         {/* <GoogleLogin
