@@ -9,7 +9,7 @@ function Navbar() {
         <div className="nav-links">
           <a href="#features">Features</a>
           <a href="#demo">Demo</a>
-          <a href="#pricing">Pricing</a>
+          
         </div>
       </div>
     </nav>

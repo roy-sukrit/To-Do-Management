@@ -22,4 +22,3 @@ export default function Todo({userEmail,currentCategory,userName,isAuthenticated
         </div>
     )
 }
-
