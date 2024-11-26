@@ -6,7 +6,6 @@ pipeline {
                 sh '''
                     # Clone repository
                     if [ -d "To-Do-Management" ]; then
-                    cd To-Do-Management
                     git pull origin develop-qa
                     else
                     git clone --branch develop-qa https://github.com/roy-sukrit/To-Do-Management.git
