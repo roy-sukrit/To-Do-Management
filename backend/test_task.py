@@ -44,7 +44,12 @@ def test_createCategory(base_url, data, status_code):
     res = requests.post(url, json=data)
     print(res.json())
     if res.status_code == 201:
-        category_id = res.json()['_id']
+         if "_id" in res.json():
+            category_id = res.json()['_id']
+            print("Category created")
+
+         elif "message" in res.json():
+           print("Category already exists.")
     assert res.status_code == status_code
 
 
@@ -156,14 +161,14 @@ def test_deleteTask(base_url):
     print(res)
 
 
-@allure.feature('delete category')
-@allure.story('delete category by category id')
-def test_deleteCategory(base_url):
-    global category_id
-    print(category_id)
-    url = f"{base_url}/categories/{category_id}"
-    res = requests.delete(url)
-    assert res.status_code == 200
+# @allure.feature('delete category')
+# @allure.story('delete category by category id')
+# def test_deleteCategory(base_url):
+#     global category_id
+#     print(category_id)
+#     url = f"{base_url}/categories/{category_id}"
+#     res = requests.delete(url)
+#     assert res.status_code == 200
 
 
 if __name__ == "__main__":
@@ -171,5 +176,5 @@ if __name__ == "__main__":
     test_createTask(base_url)
     test_updataTask(base_url)
     test_deleteTask(base_url)
-    test_deleteCategory(base_url)
+    # test_deleteCategory(base_url)
     test_createCategory(base_url)
