@@ -5,7 +5,12 @@ pipeline {
             steps {
                 sh '''
                     # Clone repository
+                    if [ -d "To-Do-Management" ]; then
+                    cd To-Do-Management
+                    git pull origin develop-qa
+                    else
                     git clone --branch develop-qa https://github.com/roy-sukrit/To-Do-Management.git
+                    fi
 
                     # Set up virtual environment and install dependencies
                     python3 -m venv venv
@@ -60,7 +65,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         success {
             echo 'Pipeline completed successfully!'
