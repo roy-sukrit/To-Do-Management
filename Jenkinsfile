@@ -3,7 +3,7 @@ pipeline {
     stages {
        stage('Clone Repository') {
             steps {
-                git branch: 'TMS-83-Functional-Testing-for-Features', url: 'https://github.com/roy-sukrit/To-Do-Management.git'
+                git branch: 'develop-qa', url: 'https://github.com/roy-sukrit/To-Do-Management.git'
             }
         }
         stage('Set Up Virtual Environment') {
