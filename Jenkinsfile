@@ -67,7 +67,13 @@ pipeline {
 
     post {
          always {
-            allure includeProperties: false, jdk: '', results: [[path: 'report']]
+            script {
+                // 配置 Allure 报告目录（确保测试命令生成了 allure-results 文件夹）
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'report']]
+                ])
         }
         success {
             echo 'Pipeline completed successfully!'
