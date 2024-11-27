@@ -24,12 +24,9 @@ pipeline {
                     # Check test success rate
                     successRate=$(grep -oP 'Success rate: \\d+' allure-report/index.html | awk '{print $3}')
                     echo "Test Success Rate: $successRate%"
-                    if [ "$successRate" -ge 90 ]; then
-                    echo "Success rate is acceptable: $successRate%"
-                    # Add any actions to perform on success
-                    else
-                    echo "Success rate is below acceptable threshold: $successRate%"
-                    exit 1
+                    if [ "$successRate" -nge 90 ]; then
+                        echo "Tests did not pass with 90%. Exiting."
+                        exit 1
                     fi
                 '''
             }
