@@ -173,8 +173,8 @@ def test_deleteTask(base_url):
 
 if __name__ == "__main__":
     test_getTask(base_url)
-    test_createTask(base_url)
-    test_updataTask(base_url)
-    test_deleteTask(base_url)
-    # test_deleteCategory(base_url)
-    test_createCategory(base_url)
+    # test_createTask(base_url)
+    # test_updataTask(base_url)
+    # test_deleteTask(base_url)
+    # # test_deleteCategory(base_url)
+    # test_createCategory(base_url)
