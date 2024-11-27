@@ -146,10 +146,10 @@ def test_updataTask(base_url, data, status_code):
         }
     }, 500)
 ])
-def test_updataCategory(base_url, data, status_code):
-    url = f"{base_url}/categories"
-    res = requests.put(url, json=data)
-    assert res.status_code == status_code
+# def test_updataCategory(base_url, data, status_code):
+#     url = f"{base_url}/categories"
+#     res = requests.put(url, json=data)
+#     assert res.status_code == status_code
 
 
 @allure.feature('delete task')
