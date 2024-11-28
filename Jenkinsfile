@@ -7,7 +7,7 @@ pipeline {
                     // Ensure you are working in the correct directory
                     dir('To-Do-Management/backend') {
                         // Set up virtual environment and install dependencies
-                        sh '''
+                         sh '''
                             python3 -m venv venv
                             source venv/bin/activate
                             pip install -r requirements.txt
@@ -15,14 +15,23 @@ pipeline {
                             # Run tests and generate Allure report
                             pytest --alluredir=allure-results
 
+                            # Ensure the Allure results directory exists
+                            if [ ! -d "allure-results" ]; then
+                                echo "Allure results directory not found!"
+                                exit 1
+                            fi
+
+                            # Generate Allure report (if necessary, you might want to serve it instead)
+                            allure generate allure-results --clean -o allure-report
+
                             # Check test success rate from the Allure report
                             successRate=$(grep -oP 'Success rate: \d+' allure-report/index.html | awk '{print $3}')
                             echo "Test Success Rate: $successRate%"
 
                             # Check if success rate is less than 90%
                             if [ "$successRate" -lt 90 ]; then
-                            echo "Tests passed <90% :( Exiting...."
-                            exit 1
+                                echo "Tests passed <90% :( Exiting...."
+                                exit 1
                             fi
                         '''
                     }
