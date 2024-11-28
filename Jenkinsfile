@@ -12,15 +12,17 @@ pipeline {
                     fi                    
 
                     # Set up virtual environment and install dependencies
+                    echo "Current Directory1: ${pwd()}"
                     python3 -m venv venv
                     source venv/bin/activate
                     cd To-Do-Management/backend
                     pip install -r requirements.txt
                     pytest --alluredir=allure-results
                     allure generate allure-results -o allure-report --clean
+                    echo "Current Directory2: ${pwd()}"
 
                     # Check test success rate
-                    successRate=$(grep -oP 'Success rate: \\d+' "/mnt/jenkins/workspace/QA Job/allure-report/index.html" | awk '{print $3}')
+                    successRate=$(grep -oP 'Success rate: \\d+' "allure-report/index.html" | awk '{print $3}')
                     if [ "$successRate" -lt 90 ]; then
                         echo "Tests passed <90% :( Exiting...."
                         exit 1
