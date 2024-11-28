@@ -118,34 +118,34 @@ def test_updataTask(base_url, data, status_code):
     assert res.status_code == status_code
 
 
-@allure.feature('update category')
-@allure.story('update the category text')
-@pytest.mark.parametrize("data, status_code", [
-    ({
-        "categoryId": "672766f355d1cdbbc1f45135",
-        "email": "j835574934@gmail.com",
-        "updateData": {
-            "name": "Updated Category By SHeen",
-            "slug": "task"
-        }
-    }, 200),
-    ({
-        "categoryId": "672766f355d1cdbbc1f45135",
-        "email": "j835574934@gmail.com",
-        "updateData": {
-            "name": "",
-            "slug": "task"
-        }
-    }, 500),
-    ({
-        "categoryId": "672766f355d1cdbbc1f45135",
-        "email": "j835574934@gmail.com",
-        "updateData": {
-            "name": "Updated Category By SHeen",
-            "slug": ""
-        }
-    }, 500)
-])
+# @allure.feature('update category')
+# @allure.story('update the category text')
+# @pytest.mark.parametrize("data, status_code", [
+#     ({
+#         "categoryId": "672766f355d1cdbbc1f45135",
+#         "email": "j835574934@gmail.com",
+#         "updateData": {
+#             "name": "Updated Category By SHeen",
+#             "slug": "task"
+#         }
+#     }, 200),
+#     ({
+#         "categoryId": "672766f355d1cdbbc1f45135",
+#         "email": "j835574934@gmail.com",
+#         "updateData": {
+#             "name": "",
+#             "slug": "task"
+#         }
+#     }, 500),
+#     ({
+#         "categoryId": "672766f355d1cdbbc1f45135",
+#         "email": "j835574934@gmail.com",
+#         "updateData": {
+#             "name": "Updated Category By SHeen",
+#             "slug": ""
+#         }
+#     }, 500)
+# ])
 # def test_updataCategory(base_url, data, status_code):
 #     url = f"{base_url}/categories"
 #     res = requests.put(url, json=data)
