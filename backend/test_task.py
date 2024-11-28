@@ -136,7 +136,7 @@ def test_updataTask(base_url, data, status_code):
 #             "name": "",
 #             "slug": "task"
 #         }
-#     }, 500),
+#     }, 404),
 #     ({
 #         "categoryId": "672766f355d1cdbbc1f45135",
 #         "email": "j835574934@gmail.com",
@@ -144,7 +144,7 @@ def test_updataTask(base_url, data, status_code):
 #             "name": "Updated Category By SHeen",
 #             "slug": ""
 #         }
-#     }, 500)
+#     }, 404)
 # ])
 # def test_updataCategory(base_url, data, status_code):
 #     url = f"{base_url}/categories"
