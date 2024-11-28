@@ -21,11 +21,11 @@ pipeline {
                                 exit 1
                             fi
 
-                            # Generate Allure report (if necessary, you might want to serve it instead)
+                            # Generate Allure report (in the correct location)
                             allure generate allure-results --clean -o allure-report
 
                             # Check test success rate from the Allure report
-                            successRate=$(grep -oP "Success rate: \\d+" allure-report/index.html | awk '{print $3}')
+                            successRate=$(grep -oP "Success rate: \d+" allure-report/index.html | awk '{print $3}')
                             echo "Test Success Rate: $successRate%"
 
                             # Check if success rate is less than 90%
