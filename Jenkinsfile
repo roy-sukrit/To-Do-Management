@@ -26,7 +26,7 @@ pipeline {
     post {
         always {
             // Publish Allure report
-            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            allure includeProperties: false, jdk: '', results: [[path: '/To-Do-Management/backend/allure-results']]
         }
         success {
             echo 'Pipeline completed successfully!'
