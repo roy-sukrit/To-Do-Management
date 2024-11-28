@@ -65,15 +65,15 @@ pipeline {
         // }
     }
 
-    post {
-         always {
-            allure includeProperties: false, jdk: '', results: [[path: 'report']]
-        }
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs.'
-        }
-    }
+    // post {
+    //      always {
+    //         allure includeProperties: false, jdk: '', results: [[path: 'report']]
+    //     }
+    //     success {
+    //         echo 'Pipeline completed successfully!'
+    //     }
+    //     failure {
+    //         echo 'Pipeline failed. Please check the logs.'
+    //     }
+    // }
 }
