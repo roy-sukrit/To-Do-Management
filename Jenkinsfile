@@ -29,7 +29,7 @@ pipeline {
                             cat allure-report/index.html
 
                             # Extract the success rate from the Allure report
-                            successRate=$(grep -oP 'Success rate: \d+' allure-report/index.html | awk '{print $3}')
+                            successRate=$(grep -oP 'Success rate: \\d+' allure-report/index.html | awk '{print $3}')
 
                             # Check if successRate is empty or not found
                             if [ -z "$successRate" ]; then
