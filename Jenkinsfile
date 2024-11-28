@@ -24,8 +24,19 @@ pipeline {
                             # Generate Allure report (in the correct location)
                             allure generate allure-results --clean -o allure-report
 
-                            # Check test success rate from the Allure report
-                            successRate=$(grep -oP "Success rate: \\d+" allure-report/index.html | awk '{print $3}')
+                            # Debugging: Print the contents of the Allure report
+                            echo "Contents of allure-report/index.html:"
+                            cat allure-report/index.html
+
+                            # Extract the success rate from the Allure report
+                            successRate=$(grep -oP 'Success rate: \d+' allure-report/index.html | awk '{print $3}')
+
+                            # Check if successRate is empty or not found
+                            if [ -z "$successRate" ]; then
+                                echo "Could not find success rate in the report. Exiting...."
+                                exit 1
+                            fi
+
                             echo "Test Success Rate: $successRate%"
 
                             # Check if success rate is less than 90%
@@ -38,36 +49,6 @@ pipeline {
                 }
             }
         }
-        // stage('Deployment to QA Env') {
-        //     steps {
-        //         sshagent(['JENKIN_PK']) {
-        //             script {
-        //                 sh '''
-        //                     ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << EOF
-        //                     set -e  # Exit on error
-                            
-        //                     # Backend deployment
-        //                     cd To-Do-Management/backend
-        //                     git checkout develop-qa
-        //                     git pull
-        //                     npm install
-        //                     npm run build
-        //                     echo 'Starting Backend Server...'
-        //                     pm2 restart "Server-qa" --update-env || pm2 start npm --name "Server-qa" -- start
-        //                     echo 'Backend Server is running successfully!'
-                            
-        //                     # Frontend deployment
-        //                     cd ../frontend
-        //                     npm install
-        //                     npm run build
-        //                     echo 'Starting Frontend Server...'
-        //                     pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s build
-        //                     echo 'Frontend Server is running successfully!'       
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
     }
     post {
         always {
