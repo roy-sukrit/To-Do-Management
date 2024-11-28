@@ -20,7 +20,7 @@ pipeline {
                     allure generate allure-results -o allure-report --clean
 
                     # Check test success rate
-                    successRate=$(grep -oP 'Success rate: \\d+' allure-report/index.html | awk '{print $3}')
+                    successRate=$(grep -oP 'Success rate: \d+(\.\d+)?' allure-report/index.html | awk '{print $3}')
                     echo "Test Success Rate: $successRate%"
                     if [ "$successRate" -lt 90 ]; then
                         echo "Tests passed <90% :( Exiting...."
