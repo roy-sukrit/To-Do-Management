@@ -13,7 +13,7 @@ pipeline {
 
                     # Ensure workspace is clean
                     rm -rf allure-results allure-report
-                    echo "Cache Cleaned.."
+                    echo "Cache Cleaned 1.."
                     mkdir -p allure-results
                     echo "Fresh Folder Generated.."
 
@@ -24,6 +24,8 @@ pipeline {
                     pip install -r requirements.txt
 
                     # Run tests and generate Allure report
+                    rm -rf allure-results allure-report
+                    echo "Cache Cleaned 2 .."
                     pytest --alluredir=allure-results
                     allure generate allure-results -o allure-report --clean
 
