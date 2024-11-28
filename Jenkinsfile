@@ -9,23 +9,13 @@ pipeline {
                     git pull origin develop-qa
                     else
                     git clone --branch develop-qa https://github.com/roy-sukrit/To-Do-Management.git
-                    fi
-
-                    # Ensure workspace is clean
-                    rm -rf allure-results allure-report
-                    echo "Cache Cleaned 1.."
-                    mkdir -p allure-results
-                    echo "Fresh Folder Generated.."
+                    fi                    
 
                     # Set up virtual environment and install dependencies
                     python3 -m venv venv
                     source venv/bin/activate
                     cd To-Do-Management/backend
                     pip install -r requirements.txt
-
-                    # Run tests and generate Allure report
-                    rm -rf allure-results allure-report
-                    echo "Cache Cleaned 2 .."
                     pytest --alluredir=allure-results
                     allure generate allure-results -o allure-report --clean
 
@@ -41,36 +31,36 @@ pipeline {
         }
 
 
-        stage('Deployment to QA Env') {
-            steps {
-                sshagent(['JENKIN_PK']) {
-                    script {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << EOF
-                            set -e  # Exit on error
+        // stage('Deployment to QA Env') {
+        //     steps {
+        //         sshagent(['JENKIN_PK']) {
+        //             script {
+        //                 sh '''
+        //                     ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.184 << EOF
+        //                     set -e  # Exit on error
                             
-                            # Backend deployment
-                            cd To-Do-Management/backend
-                            git checkout develop-qa
-                            git pull
-                            npm install
-                            npm run build
-                            echo 'Starting Backend Server...'
-                            pm2 restart "Server-qa" --update-env || pm2 start npm --name "Server-qa" -- start
-                            echo 'Backend Server is running successfully!'
+        //                     # Backend deployment
+        //                     cd To-Do-Management/backend
+        //                     git checkout develop-qa
+        //                     git pull
+        //                     npm install
+        //                     npm run build
+        //                     echo 'Starting Backend Server...'
+        //                     pm2 restart "Server-qa" --update-env || pm2 start npm --name "Server-qa" -- start
+        //                     echo 'Backend Server is running successfully!'
                             
-                            # Frontend deployment
-                            cd ../frontend
-                            npm install
-                            npm run build
-                            echo 'Starting Frontend Server...'
-                            pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s build
-                            echo 'Frontend Server is running successfully!'       
-                        '''
-                    }
-                }
-            }
-        }
+        //                     # Frontend deployment
+        //                     cd ../frontend
+        //                     npm install
+        //                     npm run build
+        //                     echo 'Starting Frontend Server...'
+        //                     pm2 restart "Client-qa" --update-env || pm2 start npx --name "Client-qa" -- serve -s build
+        //                     echo 'Frontend Server is running successfully!'       
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     post {
