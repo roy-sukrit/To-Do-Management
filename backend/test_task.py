@@ -128,7 +128,7 @@ def test_updataTask(base_url, data, status_code):
 #             "name": "Updated Category By SHeen",
 #             "slug": "task"
 #         }
-#     }, 200),
+#     }, 404),
 #     ({
 #         "categoryId": "672766f355d1cdbbc1f45135",
 #         "email": "j835574934@gmail.com",
