@@ -7,7 +7,7 @@ pipeline {
                     // Ensure you are working in the correct directory
                     dir('To-Do-Management/backend') {
                         // Set up virtual environment and install dependencies
-                         sh '''
+                        sh '''
                             python3 -m venv venv
                             source venv/bin/activate
                             pip install -r requirements.txt
@@ -25,7 +25,8 @@ pipeline {
                             allure generate allure-results --clean -o allure-report
 
                             # Check test success rate from the Allure report
-                            successRate=$(grep -oP 'Success rate: \d+' allure-report/index.html | awk '{print $3}')                            echo "Test Success Rate: $successRate%"
+                            successRate=$(grep -oP "Success rate: \d+" allure-report/index.html | awk '{print $3}')
+                            echo "Test Success Rate: $successRate%"
 
                             # Check if success rate is less than 90%
                             if [ "$successRate" -lt 90 ]; then
@@ -37,7 +38,7 @@ pipeline {
                 }
             }
         }
-             // stage('Deployment to QA Env') {
+        // stage('Deployment to QA Env') {
         //     steps {
         //         sshagent(['JENKIN_PK']) {
         //             script {
