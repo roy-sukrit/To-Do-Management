@@ -22,7 +22,7 @@ pipeline {
                             echo "Contents of allure-report/data/suites.csv:"
                             cat allure-report/data/suites.csv
 
-                            passedTests=$(awk -F, 'NR > 1 && $6 == "\"passed\"" {count++} END {print count}' allure-report/data/suites.csv)
+                            passedTests=$(awk -F, 'NR > 1 && $6 ~ /passed/ {count++} END {print count}' allure-report/data/suites.csv)
                             totalTests=$(awk -F, 'NR > 1 {count++} END {print count}' allure-report/data/suites.csv)
 
 
