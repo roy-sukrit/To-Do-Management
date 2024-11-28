@@ -11,6 +11,12 @@ pipeline {
                     git clone --branch develop-qa https://github.com/roy-sukrit/To-Do-Management.git
                     fi
 
+                    # Ensure workspace is clean
+                    rm -rf allure-results allure-report
+                    echo "Cache Cleaned.."
+                    mkdir -p allure-results
+                    echo "Fresh Folder Generated.."
+
                     # Set up virtual environment and install dependencies
                     python3 -m venv venv
                     source venv/bin/activate
