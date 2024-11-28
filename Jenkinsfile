@@ -1,36 +1,36 @@
 pipeline {
     agent any
     stages {
-    //    stage('Test Stage - Python/Allure') {
-    //         steps {
-    //             sh '''
-    //                 # Clone repository
-    //                 if [ -d "To-Do-Management" ]; then
-    //                 git pull origin develop-qa
-    //                 else
-    //                 git clone --branch develop-qa https://github.com/roy-sukrit/To-Do-Management.git
-    //                 fi
+       stage('Test Stage - Python/Allure') {
+            steps {
+                sh '''
+                    # Clone repository
+                    if [ -d "To-Do-Management" ]; then
+                    git pull origin develop-qa
+                    else
+                    git clone --branch develop-qa https://github.com/roy-sukrit/To-Do-Management.git
+                    fi
 
-    //                 # Set up virtual environment and install dependencies
-    //                 python3 -m venv venv
-    //                 source venv/bin/activate
-    //                 cd To-Do-Management/backend
-    //                 pip install -r requirements.txt
+                    # Set up virtual environment and install dependencies
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    cd To-Do-Management/backend
+                    pip install -r requirements.txt
 
-    //                 # Run tests and generate Allure report
-    //                 pytest --alluredir=allure-results
-    //                 allure generate allure-results -o allure-report --clean
+                    # Run tests and generate Allure report
+                    pytest --alluredir=allure-results
+                    allure generate allure-results -o allure-report --clean
 
-    //                 # Check test success rate
-    //                 successRate=$(grep -oP 'Success rate: \\d+' allure-report/index.html | awk '{print $3}')
-    //                 echo "Test Success Rate: $successRate%"
-    //                 if [ "$successRate" -lt 90 ]; then
-    //                     echo "Tests passed <90% :( Exiting...."
-    //                     exit 1
-    //                 fi
-    //             '''
-    //         }
-    //     }
+                    # Check test success rate
+                    successRate=$(grep -oP 'Success rate: \\d+' allure-report/index.html | awk '{print $3}')
+                    echo "Test Success Rate: $successRate%"
+                    if [ "$successRate" -lt 90 ]; then
+                        echo "Tests passed <90% :( Exiting...."
+                        exit 1
+                    fi
+                '''
+            }
+        }
 
 
         stage('Deployment to QA Env') {
