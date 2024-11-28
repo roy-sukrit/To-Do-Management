@@ -78,7 +78,7 @@ pipeline {
         }
     }
 
-    }
+    
     post {
         always {
             // Publish Allure report after test execution
