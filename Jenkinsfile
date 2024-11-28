@@ -22,10 +22,9 @@ pipeline {
                     echo "Current Directory2: ${pwd()}"
 
                     # Check test success rate
-                    successRate=$(grep -oP 'Success rate: \\d+' "/mnt/jenkins/workspace/QA\ Job/To-Do-Management/backend/allure-report" | awk '{print $3}')
-                    if [ "$successRate" -lt 90 ]; then
-                        echo "Tests passed <90% :( Exiting...."
-                        exit 1
+                    successRate=$(grep -oP 'Success rate: \\d+' "/mnt/jenkins/workspace/QA Job/To-Do-Management/backend/allure-report/index.html" | awk '{print $3}')                       if [ "$successRate" -lt 90 ]; then
+                    echo "Tests passed <90% :( Exiting...."
+                    exit 1
                     fi
                 '''
             }
