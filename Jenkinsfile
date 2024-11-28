@@ -22,8 +22,9 @@ pipeline {
                             echo "Contents of allure-report/data/suites.csv:"
                             cat allure-report/data/suites.csv
 
-                            passedTests=$(awk -F, '$6 == "\"passed\"" {count++} END {print count}' allure-report/data/suites.csv)
-                            totalTests=$(awk -F, 'END {print NR-1}' allure-report/data/suites.csv)
+                            passedTests=$(awk -F, 'NR > 1 && $6 == "\"passed\"" {count++} END {print count}' allure-report/data/suites.csv)
+                            totalTests=$(awk -F, 'NR > 1 {count++} END {print count}' allure-report/data/suites.csv)
+
 
                             if [ "$totalTests" -gt 0 ]; then
                             successRate=$(( (passedTests * 100) / totalTests ))
