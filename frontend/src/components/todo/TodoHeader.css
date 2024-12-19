@@ -1,0 +1,47 @@
+/* Waving Hand Animation */
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(15deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+    75% {
+        transform: rotate(15deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.animate-wave {
+    display: inline-block;
+    animation: wave 1.5s infinite ease-in-out;
+    transform-origin: 70% 70%;
+}
+
+/* Responsive Spacing */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+    }
+
+    .flex {
+        justify-content: center;
+    }
+}
+
+@media (min-width: 768px) {
+    header {
+        padding: 16px 32px;
+    }
+
+    .logout-button {
+        margin-left: auto;
+    }
+}
