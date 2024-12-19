@@ -2,7 +2,11 @@
 
 ## Overview
 
-This is a To-Do application built with the MERN stack (MongoDB, Express, React, Node.js), featuring Google OAuth login for secure access. The app allows users to create, view, update, and delete tasks while ensuring data is private and associated with each logged-in user. Continuous Integration (CI) is implemented using Jenkins, along with code quality assurance via SonarQube.
+This is a To-Do application built with the MERN stack (MongoDB, Express, React, Node.js), featuring Google OAuth login for secure access using Agile Methodologies.  The app allows users to create, view, update, and delete tasks while ensuring data is private and associated with each logged-in user. Continuous Integration (CI) is implemented using Jenkins, along with code quality assurance via Pytest and Allure Reporting.
+
+
+https://github.com/user-attachments/assets/979c760c-5de0-473f-a115-914195746c55
+
 
 ## Features
 
@@ -11,9 +15,9 @@ This is a To-Do application built with the MERN stack (MongoDB, Express, React, 
 - **User-Specific Tasks**: Each user can only see their own tasks.
 - **Persistent Sessions**: Users remain logged in across browser refreshes.
 - **CI/CD Pipeline**: Automated tests and builds using Jenkins.
-- **Code Quality**: Enforced via SonarQube integration.
 
 ## Tech Stack
+![diagram-export-28-11-2024-22_38_27 (1)](https://github.com/user-attachments/assets/fddd4f07-0eca-4156-bd57-6baf4264d4a5)
 
 - **Frontend**: React
 - **Backend**: Node.js, Express
@@ -80,16 +84,6 @@ Jenkins Setup -
 Install Jenkins and set up a pipeline that runs tests and builds on every push.
 Ensure deployment occurs only if all tests pass.
 
-### SonarQube Setup
-1. Run SonarQube with Docker:
-
-```bash
-docker run -d --name sonarqube -p 9000:9000 sonarqube
-```
-2. Configure SonarQube in the Jenkins pipeline for static code analysis.
-3. Ensure code passes SonarQube's quality checks before deployment.
-
-### Project Structure
 
 ```bash
 ├── backend         # Node.js and Express backend
